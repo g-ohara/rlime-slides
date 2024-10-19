@@ -63,7 +63,7 @@
 \setbeamertemplate{section page}{%
   \begingroup
   \begin{beamercolorbox}[sep=10pt,center,rounded=true,shadow=true]{section title}
-    \usebeamerfont{section title}\thesection.~\insertsection\par
+    \usebeamerfont{section title}\insertsection\par
   \end{beamercolorbox}
   \endgroup
 }
@@ -82,7 +82,7 @@
 }
 \let\oldframetitle\frametitle{}
 \renewcommand{\frametitle}{
-  \oldframetitle{\thesection.~\insertsection\mysubsectiontitle\mysubsubsectiontitle}
+  \oldframetitle{\insertsection\mysubsectiontitle\mysubsubsectiontitle}
 }
 
 
