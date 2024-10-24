@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
-# Use LuaLaTeX for PDF output.
-$pdf_mode = 4;
+# Use pdfLaTeX for PDF output.
+$pdf_mode = 1;
 
 # Regenerate BBL file on each build.
 $bibtex_use = 2;

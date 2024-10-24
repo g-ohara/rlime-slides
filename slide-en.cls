@@ -1,14 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{slide-ja}[2024/05/21 Style for LuaTeX and Beamer (Genji Ohara)]
+\ProvidesClass{slide-en}[2024/05/21 Style for pdfTeX and Beamer (Genji Ohara)]
 
 \RequirePackage{xkeyval}
 % \DeclareOptionX{aspectratio}[169]{\def\aspectratio{#1}}
 \ProcessOptionsX{}
 \LoadClass[aspectratio=169,10pt]{beamer}
-
-% LuaTeX in Japanese
-\RequirePackage{luatexja}
-
 
 % -----------------------------------------------------------------------------
 % Beamer Theme and Background Color
@@ -23,18 +19,18 @@
 % Font
 % -----------------------------------------------------------------------------
 
-% Package for designating Japanese font
-\RequirePackage{luatexja-fontspec}
+% FiraFonts
+\usepackage[sfdefault]{FiraSans}
+\usepackage{FiraMono}
+
+% Use thinner fonts
+\makeatletter
+\def\bfseries@sf{medium}
+\def\mdseries@sf{l}
+\makeatother
 
 % Math font
 \usefonttheme[onlymath]{serif}
-
-% Japanese font
-\setmainjfont{Harano Aji Gothic}[Scale=0.9]
-\setsansjfont{Harano Aji Gothic}
-% These commands cause "Package fontspec Warning: ..."
-% \setmainfont{Harano Aji Mincho}
-% \setsansfont{Harano Aji Gothic}
 
 % Caption font (make it smaller and disable reference number)
 \RequirePackage[font=scriptsize,labelformat=empty]{caption}
