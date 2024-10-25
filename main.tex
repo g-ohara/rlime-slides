@@ -382,7 +382,7 @@
 \end{frame}
 
 \def\index{0012}
-\def\dir{src/rlime-examples/examples}
+\def\dir{src/rlime-paper/src/experiments/exp1}
 
 \begin{frame}{}
   \renewcommand{\arraystretch}{0.80}
@@ -408,8 +408,8 @@
   LIME provides the importance of each feature to the prediction of the random forest
   \bigskip
   \begin{figure}[b]
-    \hspace{-5em}
-    \includegraphics[scale=\scale]{\dir/lime-\index}
+    \hspace{-4em}
+    \includegraphics[scale=\scale]{experiments/exp1/lime-\index}
   \end{figure}
 \end{frame}
 
@@ -419,18 +419,8 @@
 
   It can be only applied to \underline{married} prisoners!
   \begin{figure}
-    \hspace{-5em}
-    \includegraphics[scale=\scale]{\dir/newlime-\index-70}
-  \end{figure}
-\end{frame}
-
-\subsubsection{Results --- R-LIME ($\tau=0.80$)}
-\begin{frame}{}
-  Constraints of served months are added to the explanation
-
-  \begin{figure}
-    \hspace{-4.8em}
-    \includegraphics[scale=\scale]{\dir/newlime-\index-80}
+    \hspace{-3.7em}
+    \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-70}
   \end{figure}
 \end{frame}
 
@@ -438,8 +428,8 @@
 \begin{frame}{}
   Too low coverage $\rightarrow$ \underline{Limited generality}
   \begin{figure}
-    \hspace{-2.3em}
-    \includegraphics[scale=\scale]{\dir/newlime-\index-90}
+    \hspace{-4.5em}
+    \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-90}
   \end{figure}
 \end{frame}
 }

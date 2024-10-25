@@ -1,6 +1,3 @@
-[submodule "src/rlime-examples"]
-	path = src/rlime-examples
-	url = git@github.com:g-ohara/rlime-examples
 [submodule "src/rlime-paper"]
 	path = src/rlime-paper
 	url = git@github.com:g-ohara/rlime-paper
