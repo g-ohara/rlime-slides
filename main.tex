@@ -11,10 +11,10 @@
 \usepackage{bbm}
 \usepackage{csvsimple} % csvreader
 
-\graphicspath{{src/}}
-\addbibresource{src/myref.bib}
+\graphicspath{{src/}{src/rlime-paper/src/}}
+\addbibresource{src/rlime-paper/src/ref.bib}
 
-\input{src/macro}
+\input{src/rlime-paper/src/tex/macro}
 
 \newcommand{\dtrain}{D_{\mathrm{train}}}
 \newcommand{\dtest}{D_{\mathrm{test}}}
@@ -105,7 +105,7 @@
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{figure}
-        \includegraphics[scale=0.35]{visual-lime}
+        \includegraphics[scale=0.35]{img/visual-lime}
       \end{figure}
     \end{column}
   \end{columns}
@@ -116,7 +116,7 @@
     \begin{column}{0.35\textwidth}
       \vspace{4.2em}
       \begin{figure}
-        \includegraphics[width=\textwidth]{example-instance}
+        \includegraphics[width=\textwidth]{img/example-instance}
         \vspace{0.8em}
         \caption{%
           Example of the focal point.
@@ -126,7 +126,7 @@
     \end{column}
     \begin{column}{0.4\textwidth}
       \begin{figure}
-        \includegraphics[width=0.9\textwidth]{example-lime}
+        \includegraphics[width=0.9\textwidth]{img/example-lime}
         \caption{%
           Example of LIME's explanation for the output
           by the sentiment prediction model.
@@ -149,7 +149,7 @@
     \end{column}
     \begin{column}{0.45\textwidth}
       \begin{figure}
-        \includegraphics[width=\textwidth]{src/lime_drawback}
+        \includegraphics[width=\textwidth]{lime_drawback}
       \end{figure}
     \end{column}
   \end{columns}
@@ -174,7 +174,7 @@
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{figure}
-        \includegraphics[scale=0.35]{visual-anchor}
+        \includegraphics[scale=0.35]{img/visual-anchor}
       \end{figure}
     \end{column}
   \end{columns}
@@ -187,7 +187,7 @@
     \begin{column}{0.35\textwidth}
       \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{example-instance}
+        \includegraphics[width=\textwidth]{img/example-instance}
         \caption{%
           Example of the focal point.
           The sentiment prediction model predicted this sentence as ``Positive''.
@@ -197,7 +197,7 @@
     \begin{column}{0.4\textwidth}
       \vspace{0.7em}
       \begin{figure}
-        \includegraphics[width=\textwidth]{example-anchor}
+        \includegraphics[width=\textwidth]{img/example-anchor}
         \vspace{-0.5em}
         \caption{%
           Example of Anchor explanation for the sentiment prediction model.
@@ -223,12 +223,12 @@
       \begin{figure}
         \begin{subfigure}[t]{\textwidth}
           \centering
-          \includegraphics[scale=0.4]{example-lime}
+          \includegraphics[scale=0.4]{img/example-lime}
         \end{subfigure}
         \begin{subfigure}[t]{\textwidth}
           \centering
           \vspace{0.5em}
-          \includegraphics[scale=0.4]{example-anchor}
+          \includegraphics[scale=0.4]{img/example-anchor}
         \end{subfigure}
         \vspace{0.5em}
         \caption{Comparison of LIME and Anchor outputs for the sentiment prediction model}
@@ -278,7 +278,7 @@
     \end{column}
     \begin{column}{0.55\textwidth}
       \begin{figure}
-        \includegraphics[scale=0.35]{visual-rlime3}
+        \includegraphics[scale=0.35]{img/visual-rlime3}
       \end{figure}
     \end{column}
   \end{columns}
@@ -360,9 +360,9 @@
   \vspace{-1em}
   \begin{figure}[t]
     \centering
-    \includegraphics[width=0.31\textwidth]{visual-rlime1}
-    \includegraphics[width=0.31\textwidth]{visual-rlime2}
-    \includegraphics[width=0.31\textwidth]{visual-rlime3}
+    \includegraphics[width=0.31\textwidth]{img/visual-rlime1}
+    \includegraphics[width=0.31\textwidth]{img/visual-rlime2}
+    \includegraphics[width=0.31\textwidth]{img/visual-rlime3}
   \end{figure}
 \end{frame}
 
@@ -465,7 +465,7 @@
 \subsubsection{Results}
 \begin{frame}{}
   \begin{figure}
-    \includegraphics[height=142pt]{box_plot}
+    \includegraphics[height=142pt]{experiments/exp2/box_plot}
   \end{figure}
   \begin{itemize}
     \item R-LIME learns high-accuracy model adapted to the oprimized region
@@ -490,9 +490,9 @@
   When the ratio of minority labels is less than $1-\tau$
   \begin{figure}
     \centering
-    \includegraphics[width=0.39\textwidth]{visual-rlime3}
+    \includegraphics[width=0.39\textwidth]{img/visual-rlime3}
     \hspace{1em}
-    \includegraphics[width=0.4\textwidth]{visual-rlime-imbalanced}
+    \includegraphics[width=0.4\textwidth]{img/visual-rlime-imbalanced}
   \end{figure}
   R-LIME covers the entire input space and always outputs the majority label
 \end{frame}
@@ -531,7 +531,7 @@
     \begin{column}{0.4\textwidth}
       \begin{figure}
         \centering
-        \includegraphics[width=0.9\textwidth]{src/bandit}
+        \includegraphics[width=0.9\textwidth]{bandit}
       \end{figure}
     \end{column}
   \end{columns}
@@ -541,7 +541,7 @@
 
 \begin{frame}{}
   \begin{table}
-    \input{src/tab_exp_adv}
+    \input{src/rlime-paper/src/tex/tab_exp_adv}
     \caption{Comparison of true accuracy and estimated accuracy by R-LIME}
   \end{table}
 
