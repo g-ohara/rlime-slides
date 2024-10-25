@@ -4,6 +4,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\usepackage{scrextend}
+
 \usepackage{algorithm}
 \usepackage{algpseudocodex}
 \usepackage{amsmath}
@@ -35,60 +37,45 @@
 
 \begin{document}
 
-\section*{Agenda}
-
-\begin{frame}{}
-  \setbeamertemplate{section in toc}[ball unnumbered]
-  \setcounter{tocdepth}{1} % show only chapters and sections in toc
-  \tableofcontents
-\end{frame}
-
 \section{Background}
 \begin{frame}{}
   \colorrect{red!30}{Interpretable Machine Learning}
   \bigskip
   \begin{columns}[]
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
       \begin{itemize}
-        \item Complex ML models (Black Box)
-              \begin{itemize}
-                \item Deep Neural Networks
-                \item Ensemble Models
-              \end{itemize}
-              \smallskip
-              \textrightarrow{}Decision process is \underline{unambiguous}
-      \end{itemize}
-      \centering
-      \COLabel{complex}{}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item Simple ML models (White Box)
+        \item Simple ML models (White-box)
               \begin{itemize}
                 \item Linear Models
                 \item Decision Trees
               \end{itemize}
               \smallskip
-              \textrightarrow{}Decision process is \underline{ambiguous}
+              \textrightarrow{} Decision process is \underline{clear}
       \end{itemize}
       \centering
       \COLabel{simple}{}
     \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}
+        \item Complex ML models (Black-box)
+              \begin{itemize}
+                \item Deep Neural Networks
+                \item Ensemble Models
+              \end{itemize}
+              \smallskip
+              \textrightarrow{} Decision process is \underline{unclear}
+      \end{itemize}
+      \centering
+      \COLabel{complex}{}
+    \end{column}
   \end{columns}
   \begin{tikzpicture}[remember picture,overlay]
-    \draw (simple) edge [->, thick, bend left=20] node [midway, below]
+    \draw (simple) edge [->, thick, bend right=20] node [midway, below]
       {\colorrect{blue!30}{Approximate Locally}} (complex);
   \end{tikzpicture}
 \end{frame}
 
 \section{Related Work}
-
-\begin{frame}{}
-  \begin{itemize}
-    \item LIME\footfullcite{ribeiro2016why}
-    \item Anchor\footfullcite{ribeiro2018anchors}
-  \end{itemize}
-\end{frame}
 
 \subsection{LIME}
 
@@ -99,8 +86,8 @@
   \begin{columns}[]
     \begin{column}{0.5\textwidth}
       \begin{enumerate}
-        \item Generate perturbed instances around the given focal point
-        \item Learn a linear model on the perturbed instances
+        \item Sample perturbed instances around the given focal point
+        \item Learn a linear model on the instances
       \end{enumerate}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -111,13 +98,15 @@
   \end{columns}
 \end{frame}
 
+\subsubsection{Example Output}
+
 \begin{frame}{}
   \begin{columns}[]
     \begin{column}{0.35\textwidth}
-      \vspace{4.2em}
+      \vspace{5.5em}
       \begin{figure}
         \includegraphics[width=\textwidth]{img/example-instance}
-        \vspace{0.8em}
+        \vspace{1.0em}
         \caption{%
           Example of the focal point.
           The sentiment prediction model predicted this sentence as ``Positive''.
@@ -136,11 +125,12 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Related Work 1 — Drawbacks of LIME}
+\subsubsection{Drawbacks}
+
+\begin{frame}{}
   \begin{columns}[]
     \begin{column}{0.4\textwidth}
-      \underline{Scope of Explanation is Unknown}
+      \underline{Unclear scope of explanation}
 
       \bigskip
       \begin{itemize}
@@ -158,16 +148,18 @@
 \subsection{Anchor}
 
 \begin{frame}{}
+  Related Work 2 — \textbf{Anchor}
   \begin{columns}[]
     \begin{column}{0.5\textwidth}
-      Related Work 2 — Anchor
       \begin{itemize}
-        \item Search for the rectangular region in which the model's outputs
-              for the focal point and other points are consistent with high
-              probability.
+        \item Maximize the rectangular region \\ as long as
+              the model's outputs are consistent with high probability.
         \item Use the feature of the predicate to express the optimal
               rectangular region. \\
-              \textit{\footnotesize{ex. Gender = ‘Male’ AND 20 <= Age < 30}}
+              \smallskip
+              \footnotesize{
+                ex. $\textrm{Gender} = \textrm{'Male' AND } 20\le\textrm{Age} < 30$
+              }
       \end{itemize}
 
       \bigskip
@@ -180,7 +172,7 @@
   \end{columns}
 \end{frame}
 
-\subsubsection{Example of Anchor Output}
+\subsubsection{Example Output}
 
 \begin{frame}{}
   \begin{columns}[]
@@ -188,17 +180,18 @@
       \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{img/example-instance}
+        \vspace{-0.8em}
         \caption{%
           Example of the focal point.
-          The sentiment prediction model predicted this sentence as ``Positive''.
+          The model predicted this sentence as ``Positive''.
         }
       \end{figure}
     \end{column}
     \begin{column}{0.4\textwidth}
-      \vspace{0.7em}
+      \vspace{1.0em}
       \begin{figure}
         \includegraphics[width=\textwidth]{img/example-anchor}
-        \vspace{-0.5em}
+        \vspace{-0.0em}
         \caption{%
           Example of Anchor explanation for the sentiment prediction model.
         }
@@ -244,22 +237,24 @@
   \tabcolsep=1.5em
   \begin{center}
     \begin{tabular}{cccc}
-                           & LIME         & Anchor       & Proposed Method \\
+                          & LIME         & Anchor       & \textbf{Our Method} \\
       \midrule
-      Feature Importance   & \checkmark{} & $\times$     & \checkmark{}    \\
-      Optimal Region       & $\times$     & \checkmark{} & \checkmark{}    \\
-      Interpretable Region & $\times$     & \checkmark{} & \checkmark{}    \\
+      Feature Importance  & \checkmark{} & $\times$     & \checkmark{}        \\
+      Optimal Scope       & $\times$     & \checkmark{} & \checkmark{}        \\
+      Interpretable Scope & $\times$     & \checkmark{} & \checkmark{}        \\
     \end{tabular}
   \end{center}
 
   \bigskip
-  Juggle Interpretability of \underline{explanation} and its \underline{region}
+  \begin{center}
+    Achieve interpretability of both \underline{explanation} and its \underline{scope}
 
-  \smallskip
-  \textrightarrow{}
-  \colorrect{red!20}{%
-    Users can utilize knowledge derived from explanation within reasonable range
-  }
+    \smallskip
+    \textrightarrow{}
+    \colorrect{red!20}{%
+      Users can apply the derived insight within reasonable range
+    }
+  \end{center}
 \end{frame}
 
 \section{Proposed Method: R-LIME}
@@ -273,7 +268,10 @@
       \begin{itemize}
         \item Approximate in rectangular region
         \item Express the region as a conjunction of feature predicates \\
-              \textit{\footnotesize{ex. Gender = ‘Male’ AND 20 <= Age < 30}}
+              \smallskip
+              \footnotesize{
+                ex. $\textrm{Gender} = \textrm{'Male' AND } 20\le\textrm{Age} < 30$
+              }
       \end{itemize}
     \end{column}
     \begin{column}{0.55\textwidth}
@@ -283,8 +281,6 @@
     \end{column}
   \end{columns}
 \end{frame}
-
-\subsection{Setting}
 
 \begin{frame}{}
   \vspace{-1.4em}
@@ -345,11 +341,11 @@
   \bigskip
   Repeat the following steps:
   \begin{enumerate}
-    \item $\mathcal{A}_i\gets$ A set of candidate rules\COLabel{Cands}{}
+    \item $\mathcal{A}_i\gets$ a set of candidate rules\COLabel{Cands}{}
     \item $\mathcal{A}_i\gets$ $B$ rules with highest accuracy
           \COLabel{B-Cands}{}
-    \item Search for the rule with highest coverage in $\mathcal{A}_i$ \\
-          If it is found, return it
+    \item Search for the rule with highest coverage in $\mathcal{A}_i$.
+          If it is found, return it.
   \end{enumerate}
   \CO{Cands}{++ (2.5,1.2)}{%
     Add a new predicate to \\ each of the rules in $\mathcal{A}_{i-1}$
@@ -370,8 +366,6 @@
 
 \subsection{Qualitative Evaluation}
 
-\subsubsection{Setting}
-
 \begin{frame}{}
   Visually compare LIME and R-LIME on the real dataset
   \begin{itemize}
@@ -388,15 +382,18 @@
   \renewcommand{\arraystretch}{0.80}
   \centering
   \footnotesize
-  \begin{table}
-    \begin{tabular}{p{14em}m{16em}}
-      \toprule
-      \csvreader[no head, late after line= \\]{%
-        \dir/\index.csv
-      }{}{\ifnum\thecsvrow=16\midrule\fi\csvcoli{} & \csvcolii}
-      \bottomrule
-    \end{tabular}
-  \end{table}
+  {
+    \fontfamily{cmtt}\selectfont
+    \begin{table}
+      \begin{tabular}{p{14em}m{16em}}
+        \toprule
+        \csvreader[no head, late after line= \\]{%
+          \dir/\index.csv
+        }{}{\ifnum\thecsvrow=16\midrule\fi\csvcoli{} & \csvcolii}
+        \bottomrule
+      \end{tabular}
+    \end{table}
+  }
 \end{frame}
 
 
@@ -405,7 +402,8 @@
 
 \subsubsection{Results --- LIME}
 \begin{frame}{}
-  LIME provides the importance of each feature to the prediction of the random forest
+  \textbf{LIME}\@: Only feature importance \textrightarrow{}
+  Users cannot understand how general it is
   \bigskip
   \begin{figure}[b]
     \hspace{-4em}
@@ -415,9 +413,11 @@
 
 \subsubsection{Results --- R-LIME ($\tau=0.70$)}
 \begin{frame}{}
-  R-LIME provides not only the feature importance but also its application scope.
+  \textbf{R-LIME}\@: Not only feature importance but also its application scope
 
-  It can be only applied to \underline{married} prisoners!
+  \begin{itemize}
+    \item ``This can be only applied to \underline{married} prisoners''
+  \end{itemize}
   \begin{figure}
     \hspace{-3.7em}
     \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-70}
@@ -426,7 +426,7 @@
 
 \subsubsection{Results --- R-LIME ($\tau=0.90$)}
 \begin{frame}{}
-  Too low coverage $\rightarrow$ \underline{Limited generality}
+  Too low coverage $\rightarrow$ Users understand its \underline{limited generality}
   \begin{figure}
     \hspace{-4.5em}
     \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-90}
@@ -434,14 +434,13 @@
 \end{frame}
 }
 
-\subsection{Quantitative Evaluation}
-
-\subsubsection{Setting}
+\subsection{Quantitative Evaluation (LIME vs. R-LIME)}
 
 \begin{frame}{}
   Compare local approximation accuracy of LIME and R-LIME
   \begin{itemize}
-    \item Train random forest model on recidivism dataset
+    \item Use recidivism dataset\footfullcite{schmidt1988predicting}
+    \item Train black-box classifier (random forest)
     \item Repeat the following steps against 100 instances
           \begin{itemize}
             \item Generate explanations of LIME and R-LIME
@@ -463,16 +462,38 @@
   \end{itemize}
 \end{frame}
 
-\section{Discussion}
+\subsection{Quantitative Evaluation (Anchor vs. R-LIME)}
 
 \begin{frame}{}
-  Topics of Discussion
+  Compare coverage of Anchor and R-LIME
   \begin{itemize}
-    \item Behavior for imbalanced label distribution
-    \item Changes in reword distribution in best arm identification
-    \item Parameter selection
+    \item Use recidivism dataset\footfullcite{schmidt1988predicting}
+    \item Train black-box classifier (random forest)
+    \item Repeat the following steps under the thresholds $\tau\in\{0.65,0.70,\dots,0.90\}$
+          \begin{itemize}
+            \item Generate explanations for 704 instances in test set
+            \item Calculate the coverage of Anchor and R-LIME
+          \end{itemize}
   \end{itemize}
 \end{frame}
+
+\subsubsection{Results}
+
+\begin{frame}{}
+  \begin{figure}
+    \includegraphics[height=140pt]{experiments/exp2/comp_cov}
+  \end{figure}
+  \begin{itemize}
+    \item Much higher coverage of R-LIME than Anchor, especially for small $\tau$
+          \smallskip
+          \begin{itemize}
+            \item R-LIME dynamically captures complex decision boundary.
+            \item Anchor uses only the intervals discretized in advance.
+          \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Discussion}
 
 \subsection{Behavior for Imbalanced Label Distribution}
 
@@ -511,32 +532,25 @@
 
 \begin{frame}{}
   Best arm identification using KL-LUCB algorithm\footfullcite{kaufmann2013information}
-  \begin{columns}[]
-    \begin{column}{0.65\textwidth}
-      \begin{itemize}
-        \item the original assumes constant reword distribution
-        \item but in R-LIME, it changes with every update of the model after sampling
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \begin{figure}
-        \centering
-        \includegraphics[width=0.9\textwidth]{bandit}
-      \end{figure}
-    \end{column}
-  \end{columns}
+  \begin{itemize}
+    \item The original assumes constant reword distribution
+    \item But in R-LIME, it changes with every update of the model after sampling
+  \end{itemize}
 \end{frame}
 
 \subsubsection{Evaluation}
 
 \begin{frame}{}
   \begin{table}
-    \input{src/rlime-paper/src/tex/tab_exp_adv}
+    {
+      \fontfamily{cmtt}\selectfont
+      \input{src/rlime-paper/src/tex/tab_exp_adv}
+    }
     \caption{Comparison of true accuracy and estimated accuracy by R-LIME}
   \end{table}
 
   Considering confidence level $1-\delta=0.95$,
-  the deviation was relatively small.
+  the deviation was \underline{relatively small}.
 \end{frame}
 
 \section{Conclusion}
@@ -553,11 +567,21 @@
       Interpretable Scope & $\times$     & \checkmark{} & \checkmark{}    \\
     \end{tabular}
   \end{center}
-  \center{%
-    \colorrect{green!20}{%
-      Our methods achieves interpretability of both explanation and its scope!
-    }
-  }
+  \bigskip
+  \hspace{0.05\textwidth}
+  \setbeamercolor{myblue}{bg=blue!5}
+  \begin{beamercolorbox}[wd=0.85\textwidth,rounded=true]{myblue}
+    Our methods achieves interpretability of both explanation and its scope!
+
+    \smallskip
+    \begin{addmargin}[1em]{2em}
+      Also:
+      \begin{itemize}
+        \item More accurate than LIME
+        \item More general than Anchor
+      \end{itemize}
+    \end{addmargin}
+  \end{beamercolorbox}
 \end{frame}
 
 \renewcommand\appendixname{Appendix}
