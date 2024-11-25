@@ -37,7 +37,7 @@
 
 \begin{document}
 
-\section{Background}
+\section*{Background}
 \begin{frame}{}
   \colorrect{red!30}{Interpretable Machine Learning}
   \bigskip
@@ -75,198 +75,49 @@
   \end{tikzpicture}
 \end{frame}
 
-\section{Related Work}
-
-\subsection{LIME}
+\section{Related Work: LIME \& Anchor}
 
 \begin{frame}{}
-  Related Work 1 — \textbf{LIME
-    \small{(Local Interpretable Model-agnostic Explanations)}}
-  \footfullcite{ribeiro2016why}
-  \begin{columns}[]
-    \begin{column}{0.5\textwidth}
-      \begin{enumerate}
-        \item Sample perturbed instances around the given focal point
-        \item Learn a linear model on the instances
-      \end{enumerate}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{figure}
-        \includegraphics[scale=0.35]{img/visual-lime}
-      \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\subsubsection{Example Output}
-
-\begin{frame}{}
-  \begin{columns}[]
-    \begin{column}{0.35\textwidth}
-      \vspace{5.5em}
-      \begin{figure}
-        \includegraphics[width=\textwidth]{img/example-instance}
-        \vspace{1.0em}
-        \caption{%
-          Example of the focal point.
-          The sentiment prediction model predicted this sentence as ``Positive''.
-        }
-      \end{figure}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \begin{figure}
-        \includegraphics[width=0.9\textwidth]{img/example-lime}
-        \caption{%
-          Example of LIME's explanation for the output
-          by the sentiment prediction model.
-        }
-      \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\subsubsection{Drawbacks}
-
-\begin{frame}{}
-  \begin{columns}[]
-    \begin{column}{0.4\textwidth}
-      \underline{Unclear scope of explanation}
-
-      \bigskip
-      \begin{itemize}
-        \item How general is the knowledge derived from the explanation?
-      \end{itemize}
-    \end{column}
+  \vspace{1.5em}
+  \begin{columns}[t]
     \begin{column}{0.45\textwidth}
-      \begin{figure}
-        \includegraphics[width=\textwidth]{lime_drawback}
-      \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\subsection{Anchor}
-
-\begin{frame}{}
-  Related Work 2 — \textbf{Anchor}
-  \begin{columns}[]
-    \begin{column}{0.5\textwidth}
+      LIME%\footnote[frame]{\fullcite{ribeiro2016why}}
       \begin{itemize}
-        \item Maximize the rectangular region \\ as long as
-              the model's outputs are consistent with high probability.
-        \item Use the feature of the predicate to express the optimal
-              rectangular region. \\
-              \smallskip
-              \footnotesize{
-                ex. $\textrm{Gender} = \textrm{'Male' AND } 20\le\textrm{Age} < 30$
-              }
+        \item Approximate the model locally based on the perturbed samples
       \end{itemize}
-
-      \bigskip
-    \end{column}
-    \begin{column}{0.5\textwidth}
       \begin{figure}
-        \includegraphics[scale=0.35]{img/visual-anchor}
+        \includegraphics[scale=.25]{img/visual-lime}
+        \caption{Visual illustration of LIME\@.}
       \end{figure}
+      \textbf{But how general is this explanation?}
     \end{column}
-  \end{columns}
-\end{frame}
-
-\subsubsection{Example Output}
-
-\begin{frame}{}
-  \begin{columns}[]
-    \begin{column}{0.35\textwidth}
-      \begin{figure}
-        \centering
-        \includegraphics[width=\textwidth]{img/example-instance}
-        \vspace{-0.8em}
-        \caption{%
-          Example of the focal point.
-          The model predicted this sentence as ``Positive''.
-        }
-      \end{figure}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \vspace{1.0em}
-      \begin{figure}
-        \includegraphics[width=\textwidth]{img/example-anchor}
-        \vspace{-0.0em}
-        \caption{%
-          Example of Anchor explanation for the sentiment prediction model.
-        }
-      \end{figure}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\subsubsection{Drawbacks of Anchor}
-
-\begin{frame}{}
-  \begin{columns}[]
-    \begin{column}{0.45\textwidth}
-      \underline{Users get less insight}
-
-      \bigskip
+    \begin{column}{0.55\textwidth}
+      Anchor
       \begin{itemize}
-        \item How much influence does each feature have on the prediction?
+        \item Maximize the rectangular region as long as
+              the model's outputs are mostly consistent.
       \end{itemize}
-    \end{column}
-    \begin{column}{0.5\textwidth}
       \begin{figure}
-        \begin{subfigure}[t]{\textwidth}
-          \centering
-          \includegraphics[scale=0.4]{img/example-lime}
-        \end{subfigure}
-        \begin{subfigure}[t]{\textwidth}
-          \centering
-          \vspace{0.5em}
-          \includegraphics[scale=0.4]{img/example-anchor}
-        \end{subfigure}
-        \vspace{0.5em}
-        \caption{Comparison of LIME and Anchor outputs for the sentiment prediction model}
+        \includegraphics[scale=.25]{img/visual-anchor}
+        \caption{Visual illustration of Anchor.}
       \end{figure}
+      \textbf{But how much influence does each feature have?}
     \end{column}
   \end{columns}
-\end{frame}
-
-\subsection{Our Goals}
-
-\begin{frame}{}
-  \renewcommand{\arraystretch}{1.5}
-  \tabcolsep=1.5em
-  \begin{center}
-    \begin{tabular}{cccc}
-                          & LIME         & Anchor       & \textbf{Our Method} \\
-      \midrule
-      Feature Importance  & \checkmark{} & $\times$     & \checkmark{}        \\
-      Optimal Scope       & $\times$     & \checkmark{} & \checkmark{}        \\
-      Interpretable Scope & $\times$     & \checkmark{} & \checkmark{}        \\
-    \end{tabular}
-  \end{center}
-
-  \bigskip
-  \begin{center}
-    Achieve interpretability of both \underline{explanation} and its \underline{scope}
-
-    \smallskip
-    \textrightarrow{}
-    \colorrect{red!20}{%
-      Users can apply the derived insight within reasonable range
-    }
-  \end{center}
 \end{frame}
 
 \section{Proposed Method: R-LIME}
 
 \begin{frame}{}
   \begin{columns}[]
-    \begin{column}{0.45\textwidth}
+    \begin{column}{0.55\textwidth}
       \colorrect{red!20}{\textbf{R-LIME (Ruled LIME)} = LIME + Anchor}
 
       \bigskip
       \begin{itemize}
         \item Approximate in rectangular region
+        \item Maximize the rectangular region as long as
+              the approximation is accurate.
         \item Express the region as a conjunction of feature predicates \\
               \smallskip
               \footnotesize{
@@ -274,283 +125,36 @@
               }
       \end{itemize}
     \end{column}
-    \begin{column}{0.55\textwidth}
+    \begin{column}{0.40\textwidth}
       \begin{figure}
-        \includegraphics[scale=0.35]{img/visual-rlime3}
+        \includegraphics[width=\textwidth]{img/visual-rlime3}
       \end{figure}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{}
-  \vspace{-1.4em}
-  \begin{align*}
-     & \text{$m$-dim input space (discretized)}  &  & \ispace             \\
-     & \text{A black-box classifier}             &  & f:\ispace\to\{0,1\} \\
-     & \text{A focal point}                      &  & x\in\ispace         \\
-     & \text{Distribution on input space}        &  & \mathcal{D}         \\
-     & \text{Set of all possible approx.\ model} &  & G
-  \end{align*}
-
-  \textbf{Rule}: a conjunction of predicates
-  \vspace{-0.5em}
-  \begin{equation*}
-    A(z)=a_{i_1}(z)\wedge a_{i_2}(z)\wedge\dots\wedge a_{i_k}(z),\quad
-    a_i(z)=\mathbbm{1}_{z_i=x_i}
-  \end{equation*}
-\end{frame}
-
-{%
-\vfuzz=13.08765pt
-\begin{frame}{}
-  \bigskip
-  \bigskip
-  \bigskip
-
-  \begin{alignat*}{2}
-     & \text{Accuracy of rule $A$:} & \quad & \Prec(A)=\underset{g\in G}{\max}
-    \ \mathbb{E}_{z\sim\mathcal{D}(z|A)}[\mathbbm{1}_{f(z)=g(z)}]
-    \COLabel{prec}{}
-    \\
-     & \text{Coverage of rule $A$:} & \quad & \operatorname{cov}(A)=
-    \mathbb{E}_{z\sim\mathcal{D}(z)}[A(z)]
-    \COLabel{cov}{}
-    \\
-    \\
-     & \text{Our problem:}          & \quad & \colorrect{red!20}{$
-        \tilde{A}=\underset{A\ s.t.
-          \ P(\Prec(A)\ge\tau)\ge1-\delta,A(x)=1}  % chktex 36
-        {\arg\max}\operatorname{cov}(A)  % chktex 36
-      $}
-    \COLabel{problem}{}
-    \\
-  \end{alignat*}
-
-  \begin{center}
-    \underline{Maximize coverage under the constraint of accuracy}
-  \end{center}
-  \CO{prec}{++ (1.0,1.2)}{Expected accuracy of \\ approx.\ model $g$ in $A$}
-  \CO{cov}{++ (3.0,0.0)}{Probability that global \\ sample $z$ is inside $A$}
-\end{frame}
-}
-
-\subsection{Algorithm (Beam Search)}
-
-\begin{frame}{}
-  \bigskip
-  \bigskip
-  Repeat the following steps:
-  \begin{enumerate}
-    \item $\mathcal{A}_i\gets$ a set of candidate rules\COLabel{Cands}{}
-    \item $\mathcal{A}_i\gets$ $B$ rules with highest accuracy
-          \COLabel{B-Cands}{}
-    \item Search for the rule with highest coverage in $\mathcal{A}_i$.
-          If it is found, return it.
-  \end{enumerate}
-  \CO{Cands}{++ (2.5,1.2)}{%
-    Add a new predicate to \\ each of the rules in $\mathcal{A}_{i-1}$
-  }
-  \CO{B-Cands}{++ (2.5,0.5)}{
-    Solve as multi-armed bandit problem
-  }
-  \vspace{-1em}
-  \begin{figure}[t]
-    \centering
-    \includegraphics[width=0.31\textwidth]{img/visual-rlime1}
-    \includegraphics[width=0.31\textwidth]{img/visual-rlime2}
-    \includegraphics[width=0.31\textwidth]{img/visual-rlime3}
-  \end{figure}
-\end{frame}
-
 \section{Experiments}
 
-\subsection{Qualitative Evaluation}
-
 \begin{frame}{}
-  Visually compare LIME and R-LIME on the real dataset
-  \begin{itemize}
-    \item Use recidivism dataset\footfullcite{schmidt1988predicting}
-    \item Train black-box classifier (random forest)
-    \item Compare the output explanations of LIME and R-LIME
-  \end{itemize}
-\end{frame}
-
-\def\index{0012}
-\def\dir{src/rlime-paper/src/experiments/exp1}
-
-\begin{frame}{}
-  \renewcommand{\arraystretch}{0.80}
-  \centering
-  \footnotesize
-  {
-    \fontfamily{cmtt}\selectfont
-    \begin{table}
-      \begin{tabular}{p{14em}m{16em}}
-        \toprule
-        \csvreader[no head, late after line= \\]{%
-          \dir/\index.csv
-        }{}{\ifnum\thecsvrow=16\midrule\fi\csvcoli{} & \csvcolii}
-        \bottomrule
-      \end{tabular}
-    \end{table}
-  }
-\end{frame}
-
-
-{%
-\def\scale{0.42}
-
-\subsubsection{Results --- LIME}
-\begin{frame}{}
-  \textbf{LIME}\@: Only feature importance \textrightarrow{}
-  Users cannot understand how general it is
-  \bigskip
-  \begin{figure}[b]
-    \hspace{-4em}
-    \includegraphics[scale=\scale]{experiments/exp1/lime-\index}
-  \end{figure}
-\end{frame}
-
-\subsubsection{Results --- R-LIME ($\tau=0.70$)}
-\begin{frame}{}
-  \textbf{R-LIME}\@: Not only feature importance but also its application scope
-
-  \begin{itemize}
-    \item ``This can be only applied to \underline{married} prisoners''
-  \end{itemize}
-  \begin{figure}
-    \hspace{-3.7em}
-    \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-70}
-  \end{figure}
-\end{frame}
-
-\subsubsection{Results --- R-LIME ($\tau=0.90$)}
-\begin{frame}{}
-  Too low coverage $\rightarrow$ Users understand its \underline{limited generality}
-  \begin{figure}
-    \hspace{-4.5em}
-    \includegraphics[scale=\scale]{experiments/exp1/rlime-\index-90}
-  \end{figure}
-\end{frame}
-}
-
-\subsection{Quantitative Evaluation (LIME vs. R-LIME)}
-
-\begin{frame}{}
-  Compare local approximation accuracy of LIME and R-LIME
-  \begin{itemize}
-    \item Use recidivism dataset\footfullcite{schmidt1988predicting}
-    \item Train black-box classifier (random forest)
-    \item Repeat the following steps against 100 instances
-          \begin{itemize}
-            \item Generate explanations of LIME and R-LIME
-            \item Sample 10000 instances within the region of
-                  the R-LIME explanation
-            \item Calculate the local approximation accuracy of LIME and R-LIME
-          \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\subsubsection{Results}
-\begin{frame}{}
-  \begin{figure}
-    \includegraphics[height=142pt]{experiments/exp2/box_plot}
-  \end{figure}
-  \begin{itemize}
-    \item R-LIME learns high-accuracy model adapted to the oprimized region
-    \item LIME may not effectively approximize depending on how the region selected
-  \end{itemize}
-\end{frame}
-
-\subsection{Quantitative Evaluation (Anchor vs. R-LIME)}
-
-\begin{frame}{}
-  Compare coverage of Anchor and R-LIME
-  \begin{itemize}
-    \item Use recidivism dataset\footfullcite{schmidt1988predicting}
-    \item Train black-box classifier (random forest)
-    \item Repeat the following steps under the thresholds $\tau\in\{0.65,0.70,\dots,0.90\}$
-          \begin{itemize}
-            \item Generate explanations for 704 instances in test set
-            \item Calculate the coverage of Anchor and R-LIME
-          \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\subsubsection{Results}
-
-\begin{frame}{}
-  \begin{figure}
-    \includegraphics[height=140pt]{experiments/exp2/comp_cov}
-  \end{figure}
-  \begin{itemize}
-    \item Much higher coverage of R-LIME than Anchor, especially for small $\tau$
-          \smallskip
-          \begin{itemize}
-            \item R-LIME dynamically captures complex decision boundary.
-            \item Anchor uses only the intervals discretized in advance.
-          \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\section{Discussion}
-
-\subsection{Behavior for Imbalanced Label Distribution}
-
-\begin{frame}{}
-  When the ratio of minority labels is less than $1-\tau$
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.39\textwidth]{img/visual-rlime3}
-    \hspace{1em}
-    \includegraphics[width=0.4\textwidth]{img/visual-rlime-imbalanced}
-  \end{figure}
-  R-LIME covers the entire input space and always outputs the majority label
-\end{frame}
-
-\subsubsection{Possible solutions}
-
-\begin{frame}{}
-  \begin{itemize}
-    \item Modify the loss function
-          \begin{itemize}
-            \item weighted logistic loss
-            \item Focal Loss\footfullcite{lin2020focal}
-          \end{itemize}
-    \item Constraint on imbalanced label distribution
-          \begin{itemize}
-            \item add the following constraint
-                  \begin{flalign*}
-                    {\left(\mathbb{E}_{z\sim\mathcal{D}(z|A)}
-                      [\mathbbm{1}_{f(z)=1}]-\frac{1}{2}\right)}^2<\mu
-                  \end{flalign*}
-          \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\subsection{Changes in Reword Distribution}
-
-\begin{frame}{}
-  Best arm identification using KL-LUCB algorithm\footfullcite{kaufmann2013information}
-  \begin{itemize}
-    \item The original assumes constant reword distribution
-    \item But in R-LIME, it changes with every update of the model after sampling
-  \end{itemize}
-\end{frame}
-
-\subsubsection{Evaluation}
-
-\begin{frame}{}
-  \begin{table}
-    {
-      \fontfamily{cmtt}\selectfont
-      \input{src/rlime-paper/src/tex/tab_exp_adv}
-    }
-    \caption{Comparison of true accuracy and estimated accuracy by R-LIME}
-  \end{table}
-
-  Considering confidence level $1-\delta=0.95$,
-  the deviation was \underline{relatively small}.
+  \vspace{-1.5em}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{figure}
+        \includegraphics[height=142pt]{experiments/exp2/box_plot}
+      \end{figure}
+      \begin{itemize}
+        \item Much higher accuracy of R-LIME than LIME, especially for large $\tau$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{figure}
+        \includegraphics[height=140pt]{experiments/exp2/comp_cov}
+      \end{figure}
+      \begin{itemize}
+        \item Much higher coverage of R-LIME than Anchor, especially for small $\tau$
+      \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \section{Conclusion}
@@ -569,7 +173,7 @@
   \end{center}
   \bigskip
   \hspace{0.05\textwidth}
-  \setbeamercolor{myblue}{bg=blue!5}
+  \setbeamercolor{myblue}{bg=blue!15}
   \begin{beamercolorbox}[wd=0.85\textwidth,rounded=true]{myblue}
     Our methods achieves interpretability of both explanation and its scope!
 
@@ -582,118 +186,6 @@
       \end{itemize}
     \end{addmargin}
   \end{beamercolorbox}
-\end{frame}
-
-\renewcommand\appendixname{Appendix}
-\appendix
-\section{Appendix}
-
-\begin{frame}
-  \begin{algorithm}[H]
-    \caption{R-LIME}
-    \begin{algorithmic}[1]
-      \Require{%
-        Black-box model $f$, Target instance $x$,
-        Distribution $\mathcal{D}$,
-        Threshold $\tau$, Beam width $B$, Tolerance $\epsilon$,
-        Confidence level $1-\delta$
-      }
-      \Ensure{%
-        Rule $A^*$ satisfying Eq.~\eqref{eq:main-problem}
-      }
-      \State{$A^*\gets\textbf{null},\ \mathcal{A}_0\gets\emptyset,\ t\gets0$}
-      % \Comment{%
-      %   Initialize the set of candidate rules $\mathcal{A}_0$ to $\emptyset$
-      % }
-      \Comment{Initialize the set of candidate rules $\mathcal{A}_0$ to $\emptyset$}
-      \While{$A^*=\textbf{null}$}
-      \State$t\gets t+1$
-      \State$\cands_t\gets$ \Call{GenerateCands}
-      {$\mathcal{A}_{t-1}$}
-      \State$\mathcal{A}_t\gets$ \Call{B-BestCands}
-      {$\cands_{t},\mathcal{D},B,\epsilon,\delta$}
-      \State$A^*\gets$ \Call{LargestCand}
-      {$\mathcal{A}_t,\tau,\delta$}
-      \EndWhile%
-    \end{algorithmic}
-  \end{algorithm}
-  \vspace{-2em}
-  \begin{equation}
-    \tilde{A}=\underset{A\ s.t.
-      \ P(\Prec(A)\ge\tau)\ge1-\delta,A(x)=1}
-    {\arg\max}\operatorname{cov}(A)\label{eq:main-problem}
-  \end{equation}
-\end{frame}
-
-\begin{frame}
-  \begin{algorithm}[H]
-    \caption{Generating new candidate rules}
-    \begin{algorithmic}[1]
-      \Function{GenerateCands}{$\mathcal{A},x$}
-      \IIf{$\mathcal{A}=\emptyset$}{\Return{$\{\mathit{true}\}$}}
-      \Comment{An initial empty rule always returns $\mathit{true}$}
-      \State$\cands\gets\emptyset$
-      \ForAll{$A\in\mathcal{A}$}
-      \ForAll{$a\in (T(x)\setminus A)$}
-      \State$\cands\gets\bar{\mathcal{A}}\cup(A\wedge a)$
-      \Comment{Get a new rule by adding a new predicate $a$ to $A$}
-      \EndFor%
-      \EndFor%
-      \State\Return{$\cands$}
-      \EndFunction%
-    \end{algorithmic}
-  \end{algorithm}
-\end{frame}
-
-\begin{frame}
-  \begin{algorithm}[H]
-    \small
-    \caption{%
-      Searching rules with highest accuracy (KL-LUCB~\cite{kaufmann2013information})
-    }
-    \begin{algorithmic}[1]
-      \Function{B-BestCands}{$\cands,\mathcal{D},B,\epsilon,\delta$}
-      \State\textbf{initialize} $\Prec,\Prec_{u},\Prec_{l}$ for $\forall A\in\cands$
-      \State$\mathcal{A}\gets\Call{B-ProvisionallyBestCands}{\cands}$
-      \Comment{$B$ rules with highest accuracy}
-      \State$A\gets\arg\min_{A\in\mathcal{A}}\Prec_{l}(A,\delta)$
-      \Comment{The rule with the smallest lower bound}
-      \State$A'\gets\arg\max_{A'\notin(\cands\setminus\mathcal{A})}\Prec_{u}(A',\delta)$
-      \Comment{The rule with the largest upper bound}
-      \While{$~\Prec_{u}(A',\delta)-\Prec_{l}(A,\delta)>\epsilon$}
-      \State\textbf{sample} $z\sim\mathcal{D}(z|A),z'\sim\mathcal{D}(z'|A')$
-      \State\textbf{update} $\Prec,\Prec_{u},\Prec_{l}$ for $A$ and $A'$
-      \State$\mathcal{A}\gets\Call{B-ProvisionallyBestCands}{\cands}$
-      \State$A\gets\arg\min_{A\in\mathcal{A}}\Prec_{l}(A,\delta)$
-      \State$A'\gets\arg\max_{A'\notin(\cands\setminus\mathcal{A})}\Prec_{u}(A',\delta)$
-      \EndWhile%
-      % \State\algorithmicdo%
-      % \State\myidt$\mathcal{A}\gets\Call{B-ProvisionallyBestCands}{\cands}$
-      % \State\myidt$A\gets\arg\min_{A\in\mathcal{A}}\Prec_{l}(A)$
-      % \State\myidt$A'\gets\arg\max_{A'\notin(\cands\setminus\mathcal{A})}\Prec_{u}(A')$
-      % \State\myidt\textbf{sample} $z\sim\mathcal{D}(z|A),z'\sim\mathcal{D}(z'|A')$
-      % \State\myidt\textbf{update} $\Prec,\Prec_{u},\Prec_{l}$ for $A$ and $A'$
-      % \State\algorithmicwhile$~\Prec_{u}(A')-\Prec_{l}(A)>\epsilon$
-      \State\Return{$\mathcal{A}$}
-      \EndFunction%
-    \end{algorithmic}
-  \end{algorithm}
-\end{frame}
-
-\begin{frame}
-  \begin{algorithm}[H]
-    \caption{Searching a rule with highest coverage under constraint}
-    \begin{algorithmic}[1]
-      \Function{LargestCand}{$\mathcal{A},\tau,\delta$}
-      \State$A^*\gets\textbf{null}$
-      \Comment{If no rule satisfies the constraint, return $\textbf{null}$}
-      \ForAll{$A\in\mathcal{A}$ s.t. $\Prec_{l}(A,\delta)>\tau$}
-      \IIf{$\Cov(A)>\Cov(A^*)$}{$A^*\gets A$}
-      \EndFor%
-      \State\Return{$A^*$}
-      \EndFunction%
-    \end{algorithmic}
-  \end{algorithm}
 \end{frame}
 
 \end{document}

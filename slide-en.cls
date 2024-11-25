@@ -2,15 +2,15 @@
 \ProvidesClass{slide-en}[2024/05/21 Style for pdfTeX and Beamer (Genji Ohara)]
 
 \RequirePackage{xkeyval}
-% \DeclareOptionX{aspectratio}[169]{\def\aspectratio{#1}}
+\DeclareOptionX{aspectratio}[169]{\def\aspectratio{#1}}
 \ProcessOptionsX{}
-\LoadClass[aspectratio=169,10pt]{beamer}
+\LoadClass[aspectratio=\aspectratio,10pt]{beamer}
 
 % -----------------------------------------------------------------------------
 % Beamer Theme and Background Color
 % -----------------------------------------------------------------------------
 
-\usetheme[block=fill,numbering=fraction]{metropolis}
+\usetheme[block=fill,numbering=fraction,sectionpage=none]{metropolis}
 \setbeamercolor{background canvas}{bg=white}
 \RequirePackage{appendixnumberbeamer}
 
