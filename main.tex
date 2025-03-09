@@ -13,10 +13,10 @@
 \usepackage{bbm}
 \usepackage{csvsimple} % csvreader
 
-\graphicspath{{src/}{src/rlime-paper/src/}}
-\addbibresource{src/rlime-paper/src/ref.bib}
+\graphicspath{{src/img/}}
+\addbibresource{src/ref.bib}
 
-\input{src/rlime-paper/src/tex/macro}
+\input{src/macro}
 
 \newcommand{\dtrain}{D_{\mathrm{train}}}
 \newcommand{\dtest}{D_{\mathrm{test}}}
@@ -86,7 +86,7 @@
         \item Approximate the model locally based on the perturbed samples
       \end{itemize}
       \begin{figure}
-        \includegraphics[scale=.25]{img/visual-lime}
+        \includegraphics[scale=.25]{visual-lime}
         \caption{Visual illustration of LIME\@.}
       \end{figure}
       \textbf{But how general is this explanation?}
@@ -98,7 +98,7 @@
               the model's outputs are mostly consistent.
       \end{itemize}
       \begin{figure}
-        \includegraphics[scale=.25]{img/visual-anchor}
+        \includegraphics[scale=.25]{visual-anchor}
         \caption{Visual illustration of Anchor.}
       \end{figure}
       \textbf{But how much influence does each feature have?}
@@ -127,7 +127,7 @@
     \end{column}
     \begin{column}{0.40\textwidth}
       \begin{figure}
-        \includegraphics[width=\textwidth]{img/visual-rlime3}
+        \includegraphics[width=\textwidth]{visual-rlime3}
       \end{figure}
     \end{column}
   \end{columns}
@@ -140,7 +140,7 @@
   \begin{columns}[t]
     \begin{column}{0.48\textwidth}
       \begin{figure}
-        \includegraphics[height=142pt]{experiments/exp2/box_plot}
+        \includegraphics[height=142pt]{box_plot}
       \end{figure}
       \begin{itemize}
         \item Much higher accuracy of R-LIME than LIME, especially for large $\tau$
@@ -148,7 +148,7 @@
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{figure}
-        \includegraphics[height=140pt]{experiments/exp2/comp_cov}
+        \includegraphics[height=140pt]{comp_cov}
       \end{figure}
       \begin{itemize}
         \item Much higher coverage of R-LIME than Anchor, especially for small $\tau$
